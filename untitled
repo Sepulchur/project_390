@@ -1,0 +1,34 @@
+
+pairdiffobserve = function(observed_dataset, dataset_list){
+  differences = c()
+  num_datasets <- length(dataset_list)
+  for (i in 1:num_datasets){
+    sum = 0 
+    dataset <- dataset_list[[i]]
+    if (ncol(dataset) > ncol(observed_dataset)){
+      num_cols <- ncol(observed_dataset)
+      for(h in 1:50){
+      observed_submatrix = observed_dataset[h]
+      dataset_submatrix <- dataset[, 1:num_cols]
+      for(j in 1:50){
+        x = pairwise_differences(observed_submatrix,dataset_submatrix[j])
+        sum = sum + x
+      }
+      }
+      differences = c(differences,sum)
+      
+    } else {
+      num_cols <- ncol(dataset)
+      for(h in 1:50){
+        observed_submatrix = observed_dataset[h]
+        dataset_submatrix <- dataset[, 1:num_cols]
+        for(j in 1:50){
+          x = pairwise_differences(observed_submatrix,dataset_submatrix[j])
+          sum = sum + x
+        }
+      }
+      differences = c(differences,sum)
+    }
+  }
+  return (differences)
+}
